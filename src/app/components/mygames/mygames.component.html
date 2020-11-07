@@ -1,0 +1,31 @@
+<div class="image-background mygames"></div>
+
+<div id="mygames-title">
+	<h1>Your Game Library</h1>
+	<h3>(In development)</h3>
+</div>
+
+<div class="mygames-container">
+
+	<ul class="game-list">
+		<li *ngFor="let game of games" class="game-element" #openEvent (click)="toggle()" >
+			<div class="img-container">
+				<img class="game-img" src="{{game.background_image}}" *ngIf="game.background_image" />
+			</div>
+			
+			<div class="game-info">
+				<h2>{{game.name}}</h2>
+				<h3>{{game.rating}}</h3>
+				<p>
+					{{game.platforms}}
+					{{game.genres}}
+					{{game.date}}
+				</p>
+			</div>
+			
+		</li>
+	</ul>
+
+</div>
+
+

@@ -1,0 +1,165 @@
+
+<div id="main-title">
+	<h1>ROLL THE GAME</h1>
+	<h2>Random games at 1 click</h2>
+</div>
+
+<div class="video-background">
+	<video autoplay muted loop oncanplay="this.play()" onloadedmetadata="this.muted = true" id="myVideoBlur">
+	  <source src="../../../assets/video/trailer.mp4" type="video/mp4">
+	</video>
+</div>
+
+
+
+<div class="video-container">
+	<video autoplay muted loop oncanplay="this.play()" onloadedmetadata="this.muted = true" id="myVideo">
+	  <source src="../../../assets/video/trailer.mp4" type="video/mp4">
+	</video>
+</div>
+
+<div id="title">
+
+	<div class="title-card">
+		<img src="../../../assets/img/game-icon.png">
+		<div>
+			<h3>More than 300,000 games</h3>
+			<p>Are you sure you have nothing to play?</p>
+		</div>
+	</div>
+
+	<div class="title-card">
+		<img src="../../../assets/img/dice-icon.png">
+		<div>
+			<h3>Completely random</h3>
+			<p>You can find anything here...</p>
+		</div>
+	</div>
+
+	<div class="title-card">
+		<img src="../../../assets/img/search-icon.png">
+		<div>
+			<h3>Parameterized searchs</h3>
+			<p>You can select the platform and genre you are looking for.</p>
+		</div>
+	</div>
+
+</div>
+
+<!-- ----------------------------------- Downbox -------------------------------------------- -->
+
+<div id="downbox">
+	<div class="preparation-message">
+		<h3>Then, we are ready...</h3>
+		<h1>Throw the dice!</h1>
+	</div>
+
+
+	<div class="dices">
+		<img src="../../../assets/img/D20Roll.png" id="dice-icon" #dicesEvent (click)="getGameEvent()" />
+	</div>
+
+
+
+	<!-- ----------------------------------- Parametros -------------------------------------------- -->
+
+	<div class="params">
+
+		<h3 id="preferences-message">Or adjust your preferences</h3>
+
+		<img id="form_toggler" [ngClass]="!hidden ? 'big-img' : 'little-img'" src="../../../assets/img/adjust-icon.png" #formEvent (click)="showHideForm()" />
+
+		<form #preferencesForm="ngForm" [ngClass]="!hidden ? 'hid-form' : ''" id="preferences_form" (ngSubmit)="getPreferences(preferencesForm)">
+			<div class="filling"></div>
+			<mat-form-field>
+			  <mat-label>Plataform</mat-label>
+			  <mat-select [(value)]="selected_platform">
+			  	<mat-option [value]="0"> Any </mat-option>
+				<mat-option *ngFor="let p of platforms_api" [value]="p['id']">
+		      		{{p['name']}}
+		    	</mat-option>
+			  </mat-select>
+			  
+			</mat-form-field>
+
+			<br>
+
+			<mat-form-field>
+				<mat-label for="genres">Genre</mat-label>
+				  <mat-select [(value)]="selected_genre" name="genres" >
+				  	<mat-option [value]="0"> Any </mat-option>
+					<mat-option *ngFor="let g of genres_api" [value]="g['id']">
+			      		{{g['name']}}
+			    	</mat-option>
+				  </mat-select>
+				  
+			</mat-form-field>
+
+			<br>
+
+	<!--
+
+			<mat-form-field>
+			  <mat-label>Fecha Inicial</mat-label>
+			  <input matInput [matDatepicker]="picker1" disabled>
+			  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+			  <mat-datepicker #picker1 disabled="false" startView="year" [startAt]="initial_date"></mat-datepicker>
+			</mat-form-field>
+
+			<br>
+
+			<mat-form-field>
+			  <mat-label>Fecha Final</mat-label>
+			  <input matInput [matDatepicker]="picker2" disabled>
+			  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+			  <mat-datepicker #picker2 disabled="false" startView="year" [startAt]="final_date"></mat-datepicker>
+			</mat-form-field>
+
+			<br>
+	-->
+			<p *ngIf="form_error">{{val_message}}</p>
+
+			<input type="submit" value="Save Preferences">
+		</form>
+	</div>
+
+	<!-- ----------------------------------- Parametros -------------------------------------------- -->
+
+</div>
+
+<!-- ----------------------------------- Downbox -------------------------------------------- -->
+
+<div id="game-container" *ngIf="game != null" >
+	<div id="chose-game" *ngIf="game != null" >
+		<div class="game-title">
+			<h2>{{game.name}}</h2>
+			<h3>Score: {{game.rating}}</h3>
+		</div>
+		<div class="img-container" (click)="exitGame()" >
+			<img class="game-img" src="{{game.background_image}}" *ngIf="game.background_image" />
+		</div>
+		<div class="game-details">
+
+			<div class="game-detail">
+				<h2>Platforms </h2>
+				<p>{{game.platforms}}</p>
+			</div>
+			
+			<div class="game-detail">
+				<h2>Genres </h2>
+				<p>{{game.genres}}</p>
+			</div>
+
+			<div class="game-detail">
+				<h2>Release Date </h2>
+				<p>{{game.released}}</p>
+			</div>
+
+			<div class="game-buttons">
+				<h3 (click)="exitGame()">Ok, Thanks!</h3>
+				<h3 (click)="repeat()" >Give Me More!</h3>
+			</div>
+
+		</div>
+	</div>	
+</div>
